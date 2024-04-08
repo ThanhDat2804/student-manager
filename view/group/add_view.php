@@ -3,6 +3,8 @@ if (!defined('ROOT_PATH')) {
     die('Can not access');
 }
 $titlePage = "Btec - Create New Courses";
+$errorAdd  = $_SESSION['error_add_group'] ?? null;
+
 ?>
 <?php require 'view/partials/header_view.php'; ?>
 
@@ -34,6 +36,9 @@ $titlePage = "Btec - Create New Courses";
                             <div class="form-group mb-3">
                                 <label for="">Name</label>
                                 <input type="text" class="form-control" Name="name">
+                                <?php if (!empty($errorAdd['teacher'])) : ?>
+                                    <span class="text-danger"><?= $errorAdd['teacher']; ?></span>
+                                <?php endif; ?>
                             </div>
 
                             <div class="form-group mb-3">
@@ -46,6 +51,9 @@ $titlePage = "Btec - Create New Courses";
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
+                                <?php if (!empty($errorAdd['teacher'])) : ?>
+                                    <span class="text-danger"><?= $errorAdd['teacher']; ?></span>
+                                <?php endif; ?>
                             </div>
                             <div class="form-group mb-3">
                                 <label for="">Term</label>
@@ -57,6 +65,9 @@ $titlePage = "Btec - Create New Courses";
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
+                                <?php if (!empty($errorAdd['teacher'])) : ?>
+                                    <span class="text-danger"><?= $errorAdd['teacher']; ?></span>
+                                <?php endif; ?>
                             </div>
 
                             <div class="form-group mb-3">
@@ -65,6 +76,9 @@ $titlePage = "Btec - Create New Courses";
                                     <option value="1"> Active</option>
                                     <option value="0"> Deactive</option>
                                 </select>
+                                <?php if (!empty($errorAdd['teacher'])) : ?>
+                                    <span class="text-danger"><?= $errorAdd['teacher']; ?></span>
+                                <?php endif; ?>
                             </div>
                             <button class="btn btn-primary " name="btnSave" type="submit">Save</button>
                         </div>
@@ -73,6 +87,9 @@ $titlePage = "Btec - Create New Courses";
                                 <label for="">Student Member</label>
                                 <input type="text" class="form-control" Name="studentMember">
                             </div>
+                            <?php if (!empty($errorAdd['studentMember'])) : ?>
+                                    <span class="text-danger"><?= $errorAdd['studentMember']; ?></span>
+                                <?php endif; ?>
                             <div class="form-group mb-3">
                                 <label for="">Teacher</label>
                                 <input type="text" class="form-control" Name="teacher">

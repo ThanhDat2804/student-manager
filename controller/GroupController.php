@@ -51,7 +51,7 @@ function handleAdd()
 {
     if (isset($_POST['btnSave'])) {
         $name = $_POST['name'];
-
+        $id = $_GET['id'];
         $department_id = $_POST['department_id'];
         $term_id = $_POST['term_id'];
         $status = $_POST['status'];
@@ -59,12 +59,40 @@ function handleAdd()
         $teacher = $_POST['teacher'];
         $currentDate = date('Y-m-d H:i:s');
         $slug = slug_string($name);
-    }
-    $group = insertGroup($name, $slug, $department_id, $term_id, $studentMember, $teacher, $status, $currentDate);
-    if ($group) {
-        header("location:index.php?c=group&state=success");
-    } else {
-        header("location:index.php?c=group&m=add&state=error");
+
+        if (empty($name)) {
+            $_SESSION['error_add_group']['name'] = 'Enter name of group,please';
+        } else {
+            $_SESSION['error_add_group']['name'] = null;
+        }
+
+        if (!is_numeric($studentMember) || $studentMember < 25 || $studentMember > 40){
+            $_SESSION['error_add_group']['studentMember'] = 'Enter a valid nuumber of student (25-40)';
+        } else {
+            $_SESSION['error_add_group']['studentMember'] = null;
+        }
+
+        $flagCheckingError = false;
+        foreach ($_SESSION['error_add_group'] as $error) {
+            if (!empty($error)) {
+                $flagCheckingError = true;
+                break;
+            }
+        }
+
+        if (!$flagCheckingError) {
+
+            $update = insertGroup($name, $slug, $department_id, $term_id, $studentMember, $teacher, $status, $currentDate);
+
+            if ($update) {
+                header("location:index.php?c=group&state=success");
+            } else {
+                header("location:index.php?c=group&m=add&state=error");
+            }
+        } else {
+            //thong bao loi cho nguoi dung biet 
+            header("location:index.php?c=group&m=add&state=fail");
+        }
     }
 }
 
@@ -96,16 +124,56 @@ function handleEdit()
         $teacher = $_POST['teacher'];
         $currentDate = date('Y-m-d H:i:s');
         $slug = slug_string($name);
-    }
-    $group = getGroupById($id);
 
-    $update = updateGroup($name, $slug, $department_id, $term_id, $studentMember, $teacher, $status, $currentDate, $id);
-    if ($update) {
-        header("location:index.php?c=group&state=success");
-    } else {
-        header("location:index.php?c=group&m=add&state=error");
+        // Validate student member input
+        if (empty($name)) {
+            $_SESSION['error_add_group']['name'] = 'Enter name of group,please';
+        } else {
+            $_SESSION['error_add_group']['name'] = null;
+        }
+        if (empty($teacher)) {
+            $_SESSION['error_add_group']['teacher'] = 'Enter teacher of group,please';
+        } else {
+            $_SESSION['error_add_group']['teacher'] = null;
+        }
+        if (empty($name)) {
+            $_SESSION['error_add_group']['name'] = 'Enter name of group,please';
+        } else {
+            $_SESSION['error_add_group']['name'] = null;
+        }
+
+        if (!is_numeric($studentMember) || $studentMember < 25 || $studentMember > 40){
+            $_SESSION['error_add_group']['studentMember'] = 'Enter a valid nuumber of student (25-40)';
+        } else {
+            $_SESSION['error_add_group']['studentMember'] = null;
+        }
+
+        $flagCheckingError = false;
+        foreach ($_SESSION['error_add_group'] as $error) {
+            if (!empty($error)) {
+                $flagCheckingError = true;
+                break;
+            }
+        }
+
+        if (!$flagCheckingError) {
+
+            $update = updateGroup($name, $slug, $department_id, $term_id, $studentMember, $teacher, $status, $currentDate, $id);
+            if ($update) {
+                header("location:index.php?c=group&state=success");
+            } else {
+                header("location:index.php?c=group&m=add&state=error");
+            }
+        } else {
+            //thong bao loi cho nguoi dung biet 
+            header("location:index.php?c=group&m=add&state=fail");
+        }
+
+        // Update the group in the database
+     
     }
 }
+
 
 function handleDelete()
 {

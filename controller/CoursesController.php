@@ -39,7 +39,7 @@ function index()
 }
 function Add()
 {
-    $departments = getAllDataDepartments();
+    $departments = getAllDataDepartmentsByPage();
     require 'view/courses/add_view.php';
 }
 
@@ -60,6 +60,7 @@ function handleAdd()
         } else {
             $_SESSION['error_add_course']['department'] = null;
         }
+       
         $flagCheckingError = false;
         foreach ($_SESSION['error_add_course'] as $error) {
             if (!empty($error)) {

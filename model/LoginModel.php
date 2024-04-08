@@ -9,7 +9,8 @@ function checkLoginUser($username, $password){
     $db = connectionDb(); // co duoc ket noi toi database
     // viet cau lenh sql truy van
 
-    $sql = "SELECT a.*, u.`full_name`, u.`email`, u.`phone` FROM `accounts` AS a INNER JOIN `users` AS u ON a.user_id = u.id WHERE `username` = :user AND `password` = :pass AND a.`status` = 1 LIMIT 1";
+    $sql = "SELECT a.*, u.`full_name`, u.`email`, u.`phone` FROM `accounts` AS a INNER JOIN `users` AS u ON a.user_id = u.id 
+    WHERE `username` = :user AND `password` = :pass AND a.`status` = 1 LIMIT 1";
 
     $statement = $db->prepare($sql); // kiem tra cau lenh sql
 
